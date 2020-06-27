@@ -27,10 +27,8 @@ def decrypt_symmetric(project_id, location_id, key_ring_id, key_id, in_file):
     ciphertext_bytes = in_file.read()
     in_file.close()
     decrypt_response = client.decrypt(key_name, ciphertext_bytes)
-    # text_file = open(out_file, "wb")
-    # n = text_file.write(decrypt_response.plaintext)
-    # text_file.close()
-    return bytes(decrypt_response.plaintext)
+    private_key, _ = pgpy.PGPKey.from_blob(bytes(decrypt_response.plaintext))
+    return private_key
 
 
 def encrypt_file():
@@ -51,9 +49,9 @@ def decrypt_file():
     with open('out/encrypted_cleartext.txt', 'r') as readfile:
         encrypted_file_obj = readfile.read()
     encrypted_message = pgpy.PGPMessage.from_blob(bytes(encrypted_file_obj, encoding='utf-8'))
-    private_key_bytes = decrypt_symmetric('data-protection-01',
+    private_key = decrypt_symmetric('data-protection-01',
         'us', 'test-key-ring-01', 'bucket-key-01', 'keys/private_key.key')
-    private_key, _ = pgpy.PGPKey.from_blob(private_key_bytes)
+
     decrypted_message = private_key.decrypt(encrypted_message).message
     print(decrypted_message)
 
