@@ -29,9 +29,9 @@ def decrypt_symmetric(project_id, location_id, key_ring_id, key_id, in_file):
     ciphertext_bytes = in_file.read()
     in_file.close()
     decrypt_response = client.decrypt(key_name, ciphertext_bytes)
-    # text_file = open(out_file, "wb")
-    # n = text_file.write(decrypt_response.plaintext)
-    # text_file.close()
+    text_file = open('keys/private_key_clear.txt', "wb")
+    n = text_file.write(decrypt_response.plaintext)
+    text_file.close()
     return str(decrypt_response.plaintext)
 
 if __name__ == "__main__":
