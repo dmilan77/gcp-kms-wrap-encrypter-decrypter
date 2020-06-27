@@ -1,6 +1,6 @@
 
 # [START kms_encrypt_symmetric]
-def decrypt_symmetric(project_id, location_id, key_ring_id, key_id, in_file):
+def get_private_key(project_id, location_id, key_ring_id, key_id, in_file):
     """
     Decrypt the ciphertext using the symmetric key
     Args:
@@ -16,6 +16,7 @@ def decrypt_symmetric(project_id, location_id, key_ring_id, key_id, in_file):
     # Import the client library.
     from google.cloud import kms
     import base64
+    import pgpy
 
     # Create the client.
     client = kms.KeyManagementServiceClient()
@@ -49,7 +50,7 @@ def decrypt_file():
     with open('out/encrypted_cleartext.txt', 'r') as readfile:
         encrypted_file_obj = readfile.read()
     encrypted_message = pgpy.PGPMessage.from_blob(bytes(encrypted_file_obj, encoding='utf-8'))
-    private_key = decrypt_symmetric('data-protection-01',
+    private_key = get_private_key('data-protection-01',
         'us', 'test-key-ring-01', 'bucket-key-01', 'keys/private_key.key')
 
     decrypted_message = private_key.decrypt(encrypted_message).message
