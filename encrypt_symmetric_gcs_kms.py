@@ -47,7 +47,7 @@ def encrypt_symmetric(project_id, location_id, key_ring_id, key_id, private_key)
 
     # Convert the plaintext to bytes.
     # plaintext_bytes = plaintext.encode('utf-8')
-    plaintext_bytes = private_key
+    plaintext_bytes = private_key.encode('utf-8')
     # in_file = open(in_file, "rb")  
     # plaintext_bytes = in_file.read()
     # in_file.close()
@@ -61,7 +61,8 @@ def encrypt_symmetric(project_id, location_id, key_ring_id, key_id, private_key)
     print(key_name)
 
     # Call the API.
-    encrypt_pgpkey = client.encrypt(key_name, bytes(plaintext_bytes))
+   
+    encrypt_pgpkey = client.encrypt(key_name, plaintext_bytes)
     # text_file = open(gcs_bucket, "wb")
     # n = text_file.write(encrypt_pgpkey.ciphertext)
     # text_file.close()
@@ -100,7 +101,7 @@ def upload_from_string(bucket_name, strData, destination_blob_name):
 if __name__ == "__main__":
     pgpPrvKey, pgpPublicKey = generatePGPKeys()
     encrypt_pgpPrvKey = encrypt_symmetric('data-protection-01',
-        'us', 'test-key-ring-01', 'bucket-key-01', pgpPrvKey)
+        'us', 'test-key-ring-01', 'bucket-key-01', str(pgpPrvKey))
     upload_from_string('test-bucket-01-01',
                 encrypt_pgpPrvKey.ciphertext, 'private_key.key')
     upload_from_string('test-bucket-01-01',
