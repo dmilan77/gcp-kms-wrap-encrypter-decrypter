@@ -1,0 +1,2 @@
+PGPy
+google-cloud-kms==1.4.0
