@@ -1,0 +1,8 @@
+Key-Type: RSA
+Key-Length: 2048
+Key-Usage: encrypt,sign,auth
+Name-Real: Milan Das
+Name-Email: milan.das77@gmail.com
+Name-Comment: No comment
+Expire-Date: 720
+Passphrase: abcdef
