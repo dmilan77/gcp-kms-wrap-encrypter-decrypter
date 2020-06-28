@@ -36,7 +36,7 @@ def decrypt_symmetric(project_id, location_id, key_ring_id, key_id, in_file):
 
 if __name__ == "__main__":
     prv_key=decrypt_symmetric('data-protection-01',
-                      'us', 'test-key-ring-01', 'bucket-key-01', 'keys/private_key.key')
+                              'us', 'test-key-ring-01', 'bucket-key-01', 'keys/milan-das-privatekey.key')
     print(prv_key)
 
 
