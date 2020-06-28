@@ -7,7 +7,7 @@ from datetime import timedelta
 def generatePGPKeys():
     import pgpy
     from pgpy.constants import PubKeyAlgorithm, KeyFlags, HashAlgorithm, SymmetricKeyAlgorithm, CompressionAlgorithm
-    key = pgpy.PGPKey.new(PubKeyAlgorithm.RSAEncryptOrSign, 4096)
+    key = pgpy.PGPKey.new(PubKeyAlgorithm.RSAEncryptOrSign, 2048)
     # we now have some key material, but our new key doesn't have a user ID yet, and therefore is not yet usable!
     uid = pgpy.PGPUID.new('Abraham Lincoln', comment='Honest Abe',
                         email='abraham.lincoln@whitehouse.gov')
@@ -18,7 +18,10 @@ def generatePGPKeys():
                         SymmetricKeyAlgorithm.AES192, SymmetricKeyAlgorithm.AES128],
                 compression=[CompressionAlgorithm.ZLIB, CompressionAlgorithm.BZ2, CompressionAlgorithm.ZIP, CompressionAlgorithm.Uncompressed],
                 key_expires=timedelta(days=365))
-    return key, key.pubkey
+    pubkey = key.pubkey
+    pubkey |= key.certify(pubkey)
+
+    return key, pubkey
 
 
 # [START kms_encrypt_symmetric]
