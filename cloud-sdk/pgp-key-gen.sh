@@ -10,6 +10,9 @@ kmsKey="bucket-key-01"
 keyfile_name="milan-das"
 bucketname="test-bucket-01-01"
 
+echo "Passphrase: ${passphrase}" >>  /app/gpg-config.txt
+
+
 # temp_dir=$(mktemp -d)
 
 # Temporary file in memory
